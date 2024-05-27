@@ -1,0 +1,26 @@
+name: Deploy HTML to GitHub Pages
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        keep_files: false  
+
+    - name: Copy index.html to deployment directory
+      run: |
+        mkdir -p public
+        cp index.html public/index.html
+      shell: bash
